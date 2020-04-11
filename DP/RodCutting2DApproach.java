@@ -40,3 +40,22 @@ public class RodCutting {
     } 
 
 }
+
+/*Recursive Approach --Same variation as Unbounded Knapsack*/
+
+public class Main {
+    public static void main(String[] args) {
+       int[] lengthArr={1,2,3,4,5,6,7,8};
+       int[] priceArr={1,5,8,9,10,17,17,20};
+        System.out.println(dfs(lengthArr,priceArr,0,8));
+    }
+    
+    public static int dfs(int[] l,int[] p,int start,int len){
+        if(len==0 || start>=l.length)
+            return 0;
+        if(len<l[start])
+            return dfs(l,p,start+1,len);
+        
+        return Math.max(p[start]+dfs(l,p,start,len-l[start]),dfs(l,p,start+1,len));
+    }
+}
