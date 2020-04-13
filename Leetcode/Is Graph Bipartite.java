@@ -34,7 +34,7 @@ graph[i] will contain integers in range [0, graph.length - 1].
 graph[i] will not contain i or duplicate values.
 The graph is undirected: if any element j is in graph[i], then i will be in graph[j].
 */
-
+/* BFS */
 class Solution {
     public boolean isBipartite(int[][] graph) {
        
@@ -66,6 +66,37 @@ class Solution {
                     return false;
             }
         }
+        return true;
+    }
+}
+
+
+
+
+/*DFS*/
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+       
+        int len=graph.length;
+        int[] color=new int[len];
+        
+        for(int i=0;i<len;i++){
+            if(color[i]==0 && !dfs(graph,i,color,1))
+                return false;
+        }
+        return true;
+    }
+    
+    public boolean dfs(int[][] graph,int v,int[] color,int col){
+         if(color[v]!=0)
+             return color[v]==col;
+        color[v]=col;
+        for(int d:graph[v]){
+            int desCol=col==1?2:1;
+            if(!dfs(graph,d,color,desCol))
+                return false;
+        }
+        
         return true;
     }
 }
