@@ -56,7 +56,7 @@ mat[i] is sorted in a non-decreasing way.
  *     public List<Integer> dimensions {}
  * };
  */
-
+/* nlogm approach */
 class Solution {
     public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
         List<Integer> dim=binaryMatrix.dimensions();
@@ -76,5 +76,27 @@ class Solution {
                 res=Math.min(res,lo);
         }
         return res==dim.get(1)+1?-1:res;
+    }
+}
+
+
+
+/* n+m approach */
+class Solution {
+    public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
+        List<Integer> dim=binaryMatrix.dimensions();
+        int mid=0;
+        int res=-1;
+        
+        int r=0;
+        int c=dim.get(1)-1;
+        
+        while(r<dim.get(0) && c>=0){
+            if(binaryMatrix.get(r,c)==1)
+                res=c--;
+            else
+                r++;
+        }
+       return res; 
     }
 }
