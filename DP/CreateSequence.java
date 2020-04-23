@@ -88,3 +88,69 @@ class GFG {
 	    return sum;
 	}
 }
+
+/*Another Memomized Approach */
+
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int t=sc.nextInt();
+		
+		while(t-->0){
+		    int m=sc.nextInt();
+		    int n=sc.nextInt();
+		    int[][] dp=new int[m+1][n+1];
+		    for(int i=0;i<=m;i++)
+		        Arrays.fill(dp[i],-1);
+		    System.out.println(dfs(m,n,dp));
+		}
+	}
+	
+	public static int dfs(int m,int n,int[][] dp){
+	    if(m<n)
+	       return 0;
+	    if(n==0)
+	        return 1;
+	    if(dp[m][n]!=-1)
+	        return dp[m][n];
+	    dp[m][n]=dfs(m/2,n-1,dp)+dfs(m-1,n,dp);
+	    return dp[m][n];
+	}
+}
+
+/*Iterative Approach*/
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int t=sc.nextInt();
+		
+		while(t-->0){
+		    int m=sc.nextInt();
+		    int n=sc.nextInt();
+		    int[][] dp=new int[m+1][n+1];
+		    dp[0][0]=1;
+		    for(int i=1;i<=m;i++){
+		        for(int j=0;j<=Math.min(n,i);j++){
+		            if(j==0)
+		                dp[i][j]=1;
+		            else if(i<j)
+		                dp[i][j]=0;
+		            else
+		                dp[i][j]=dp[i/2][j-1]+dp[i-1][j]; 
+		        }
+		    }
+		    
+		     System.out.println(dp[m][n]);
+		}
+	}
+}
