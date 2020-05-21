@@ -38,28 +38,72 @@ to_delete contains distinct values between 1 and 1000.
  *     }
  * }
  */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class TreeNodeWrapper{
+    TreeNode node;
+    boolean isRoot;
+    TreeNodeWrapper(TreeNode node,boolean isRoot){
+        this.node=node;
+        this.isRoot=isRoot;
+    }
+}
 class Solution {
+  /*Iterative Approach*/
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
         Set<Integer> lkp=new HashSet();
         for(int i:to_delete)
             lkp.add(i);
         List<TreeNode> res=new ArrayList();
-        dfs(root,lkp,res,true);
+        Stack<TreeNodeWrapper> stack=new Stack();
+        TreeNodeWrapper t=new TreeNodeWrapper(root,true);
+        stack.push(t);
+        TreeNodeWrapper u;
+        while(!stack.isEmpty()){
+            t=stack.pop();
+            boolean flag=lkp.contains(t.node.val);
+            if(t.isRoot && !flag)
+                res.add(t.node);
+            if(t.node.left!=null){
+                u=new TreeNodeWrapper(t.node.left,flag);
+                    if(lkp.contains(t.node.left.val))
+                        t.node.left=null;
+                stack.push(u);
+            }
+            if(t.node.right!=null){
+                u=new TreeNodeWrapper(t.node.right,flag);
+                    if(lkp.contains(t.node.right.val))
+                        t.node.right=null;
+                stack.push(u);
+            }
+        }
+        
+        
+        //dfs(root,lkp,res,true);
         return res;
     }
-    
+    /*Recursive Approach*/
     public TreeNode dfs(TreeNode root,Set<Integer> lkp,List<TreeNode> res,boolean flag){
         if(root==null)
             return null;
-        if(lkp.contains(root.val)){
-            dfs(root.left,lkp,res,true);
-            dfs(root.right,lkp,res,true);
-            return null;
-        }
-        if(flag)
+        boolean isDelete=lkp.contains(root.val);
+        if(flag && !isDelete)
             res.add(root);
-        root.left=dfs(root.left,lkp,res,false);
-        root.right=dfs(root.right,lkp,res,false);
-        return root;
+        root.left=dfs(root.left,lkp,res,isDelete);
+        root.right=dfs(root.right,lkp,res,isDelete);
+        return isDelete?null:root;
     }
 }
