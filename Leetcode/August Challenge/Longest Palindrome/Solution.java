@@ -40,3 +40,25 @@ class Solution {
         return res+odd;
     }
 }
+
+
+/*Python Solution*/
+/*class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        size=len(s)
+        dp=[0 for i in range(128)]
+        odd=0
+        cnt=0
+        for i in range(size):
+            dp[ord(s[i])]+=1
+        
+        for i in range(128):
+            if dp[i]%2==1:
+                odd=1
+                cnt+=dp[i]-1
+            else:
+                cnt+=dp[i]
+                
+                
+        return cnt+odd;
+ */
