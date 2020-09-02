@@ -24,10 +24,8 @@ class Solution {
         int itr=0;
         long val;
         for(int i=0;i<len;i++){
-            long diff=(long)nums[i]-(long)t;
-            long add=(long)nums[i]+(long)t;
-            Long a=set.ceiling(diff);
-            Long b=set.floor(add);
+            Long a=set.ceiling((long)nums[i]);
+            Long b=set.floor((long)nums[i]);
             if(a!=null){
                 val=Math.abs((long)nums[i]-a);
                 if(val<=t)
