@@ -38,3 +38,47 @@ So this will be a two step algorithm ,
 2nd Step :- In this step the we can calculate the window for each element where it is the smallest number and then we can compare its value with the answer already           present in the output array(initialized with zero), if this value is larger than the answer then we shall replace this value for that window.
 */
 
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        int[] arr={10,20,30,50,10,70,30};
+        int[] ans=compute(arr,arr.length);
+        
+        for(int a:ans)
+            System.out.print(a+" ");
+        System.out.println();
+    }
+    
+    public static int[] compute(int[] arr,int n){
+        Stack<Integer> stack=new Stack();
+        int[] left=new int[n];
+        int[] right=new int[n];
+        Arrays.fill(right,n);
+        Arrays.fill(left,-1);
+        int[] ans=new int[n];
+        for(int i=0;i<n;i++){
+            while(!stack.isEmpty() && arr[stack.peek()]>arr[i])
+                right[stack.pop()]=i;
+            stack.push(i);
+        }
+        stack.clear();
+        for(int i=n-1;i>=0;i--){
+            while(!stack.isEmpty() && arr[stack.peek()]>arr[i])
+                left[stack.pop()]=i;
+            stack.push(i);
+        }
+        
+        for(int i=0;i<n;i++){
+            //System.out.println(right[i]+","+left[i]);
+            ans[right[i]-left[i]-2]=Math.max(ans[right[i]-left[i]-2],arr[i]);
+        }
+        int prev=0;
+        for(int i=n-1;i>=0;i--){
+            if(arr[i]==0)
+                arr[i]=prev;
+            prev=arr[i];
+        }
+        
+        return ans;
+    }
+}
