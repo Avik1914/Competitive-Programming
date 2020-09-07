@@ -74,9 +74,9 @@ public class Main {
         }
         int prev=0;
         for(int i=n-1;i>=0;i--){
-            if(arr[i]==0)
-                arr[i]=prev;
-            prev=arr[i];
+            if(ans[i]==0)
+                ans[i]=prev;
+            prev=ans[i];
         }
         
         return ans;
