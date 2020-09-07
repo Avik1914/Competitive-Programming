@@ -29,6 +29,7 @@ Similarly, other elements of output are computed.
 */
 
 /*
+Description of the approach
 This is stack related problem where we need to construct two preprocessing arrays with the left and right smaller elements details. As stack can easily solve the problem of finding the Next Smaller Element, So it can be rightly used in this problem.
 
 So this will be a two step algorithm ,
