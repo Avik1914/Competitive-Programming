@@ -44,3 +44,23 @@ class Solution {
     }
 }
 
+
+/*Iterative*/
+class Solution {
+    Integer[] dp;
+    public int rob(int[] nums) {
+        int len=nums.length;
+        int res=0;
+        
+        dp=new Integer[len];
+        for(int i=0;i<len;i++){
+            if(i==0)
+                dp[i]=nums[i];
+            else if(i==1)
+                dp[i]=Math.max(nums[0],nums[1]);
+            else
+                dp[i]=Math.max(nums[i]+dp[i-2],dp[i-1]);
+        }
+        return len==0?0:dp[len-1];
+    }
+}
