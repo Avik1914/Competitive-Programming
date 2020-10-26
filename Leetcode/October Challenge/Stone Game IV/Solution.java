@@ -65,3 +65,23 @@ class Solution {
         return true;
     }
 }
+
+
+class Solution {
+   
+    public boolean winnerSquareGame(int n) {
+        boolean[] dp=new boolean[n+1];
+        dp[0]=true;
+        for(int i=1;i<=n;i++){
+            dp[i]=true;
+            for(int j=1;j*j<=i;j++){
+                int val=i-(j*j);
+                if(dp[val]){
+                    dp[i]=false;
+                    break;
+                }
+            } 
+        }
+        return !dp[n];
+    }
+}
