@@ -56,7 +56,7 @@ class Node {
     }
 };
 */
-
+/*BFS Method*/
 class Solution {
     public Node connect(Node root) {
         Queue<Node> queue=new LinkedList();
@@ -79,5 +79,33 @@ class Solution {
             }
         }
         return root;
+    }
+}
+
+
+/*DFS Method*/
+
+class Solution {
+    public Node connect(Node root) {
+        dfs(root,null);
+        return root;
+    }
+    
+    public void dfs(Node root,Node prev){
+        if(root==null)
+            return;
+        if(prev!=null){
+            if(prev.left==root && prev.right!=null)
+                root.next=prev.right;
+            else if(prev.next!=null){
+                prev=prev.next;
+                while(prev!=null && prev.left==null && prev.right==null)
+                    prev=prev.next;
+                if(prev!=null)    
+                    root.next=prev.left!=null?prev.left:prev.right;
+            }
+        }
+        dfs(root.right,root);
+        dfs(root.left,root);
     }
 }
