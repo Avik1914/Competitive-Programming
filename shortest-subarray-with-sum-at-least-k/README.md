@@ -1,3 +1,4 @@
+[Discussion Post (created on 5/0/2021 at 23:55)](https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/submissions/)  
 <h2>862. Shortest Subarray with Sum at Least K</h2><h3>Hard</h3><hr><div><p>Return the <strong>length</strong> of the shortest, non-empty, contiguous&nbsp;subarray of <code>A</code> with sum at least <code>K</code>.</p>
 
 <p>If there is no non-empty subarray with sum at least <code>K</code>, return <code>-1</code>.</p>
