@@ -1,22 +1,27 @@
 class Solution {
-    Integer[][] dp;
-    public int maxCoins(int[] nums) {
-        dp=new Integer[nums.length][nums.length];
-        return dfs(nums,0,nums.length-1);
-    }
-    
-    public int dfs(int[] nums,int start,int end){
-        if(end<start)
-            return 0;
-        int res=Integer.MIN_VALUE;
-        if(dp[start][end]==null){
-            int a=start-1<0?1:nums[start-1];
-            int b=end+1>=nums.length?1:nums[end+1];
-            
-            for(int i=start;i<=end;i++)
-                res=Math.max(res,a*nums[i]*b+dfs(nums,start,i-1)+dfs(nums,i+1,end));
-            dp[start][end]=res;
-        }
-        return dp[start][end];
-    }
+    public int maxCoins(int[] nums) {
+        int len=nums.length;
+        int[] arr=new int[len+2];
+        arr[0]=1;
+        arr[len+1]=1;
+        for(int i=0;i<len;i++)
+            arr[i+1]=nums[i];
+        Integer[][] dp=new Integer[len+2][len+2];
+        return dfs(arr,0,len+1,dp);
+    }
+    
+    
+    public int dfs(int[] nums,int left,int right,Integer[][] dp){
+        if(left==right)
+            return nums[left];
+        if(dp[left][right]!=null)
+            return dp[left][right];
+        int val=0;
+        for(int i=left+1;i<=right-1;i++)
+            val=Math.max(val,nums[left]*nums[i]*nums[right]
+                         +dfs(nums,left,i,dp)+dfs(nums,i,right,dp));
+        dp[left][right]=val;
+        return val;
+        
+    }
 }
