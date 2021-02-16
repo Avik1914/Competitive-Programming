@@ -1,3 +1,4 @@
+[Discussion Post (created on 15/1/2021 at 23:11)](https://leetcode.com/problems/coin-change-2/submissions/)  
 <h2>518. Coin Change 2</h2><h3>Medium</h3><hr><div><p>You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.</p>
 
 <ul>
