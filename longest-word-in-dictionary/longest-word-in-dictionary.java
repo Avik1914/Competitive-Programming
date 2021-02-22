@@ -18,16 +18,11 @@ class Solution {
             flag=true;
             for(int i=0;i<w.length();i++){
                 char c=w.charAt(i);
-                if(root.trieNode[c-'a']==null){
-                    if(i!=w.length()-1)
-                        flag=false;
+                if(root.trieNode[c-'a']==null)
                     root.trieNode[c-'a']=new TrieNode();
-                }else{
-                    if(i==w.length()-1)
-                        flag=false;  
-                }
                 root=root.trieNode[c-'a'];
-                if(i!=w.length()-1 && !root.isEndOfWord)
+                if((i!=w.length()-1 && !root.isEndOfWord) || 
+                    (i==w.length()-1 && root.isEndOfWord))
                     flag=false;
             }
             root.isEndOfWord=true;
