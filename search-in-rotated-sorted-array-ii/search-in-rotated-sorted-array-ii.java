@@ -8,21 +8,22 @@ class Solution {
             int mid=(lo+hi)/2;
             if(nums[mid]==target)
                 return true;
-            if(nums[lo]==nums[hi]){
+            if(nums[mid]==nums[lo])
                 lo++;
-            }
+            else if(nums[mid]==nums[hi])
+                hi--;
             else if(nums[mid]>=nums[lo]){
-                if(target>=nums[lo] && target<nums[mid])
+                if(nums[mid]>target && nums[lo]<=target)
                     hi=mid-1;
                 else
                     lo=mid+1;
             }else{
-                if(target>nums[mid] && target<=nums[hi])
+                if(nums[mid]<target && nums[hi]>=target)
                     lo=mid+1;
                 else
                     hi=mid-1;
             }
         }
-        return false;
+     return false;
     }
 }
