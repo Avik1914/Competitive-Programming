@@ -9,17 +9,20 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
-        pq2.add(num);
-        if(pq2.size()-pq1.size()>0)
-            pq1.add(pq2.poll());
-        else{
-            if(!pq1.isEmpty() && pq1.peek()>pq2.peek()){
-                int val1=pq1.poll();
-                int val2=pq2.poll();
-                pq2.add(val1);
-                pq1.add(val2);
-            }
+       int maxSize=pq1.size();
+       int minSize=pq2.size();
+       
+        if(maxSize>0 && pq1.peek()>=num){
+            pq1.add(num);
+            maxSize++;
+        }else{
+            pq2.add(num);
+            minSize++;
         }
+        if(maxSize-minSize>1)
+            pq2.add(pq1.poll());
+        if(minSize-maxSize>0)
+            pq1.add(pq2.poll());
     }
     
     public double findMedian() {
@@ -27,8 +30,10 @@ class MedianFinder {
         int size2=pq2.size();
         if(size1==size2)
             return (double)(pq1.peek()+pq2.peek())/2.0;
-        else 
+        else if(size1>0)
             return (double)pq1.peek();
+        else
+            return (double)pq2.peek();
        
     }
 }
