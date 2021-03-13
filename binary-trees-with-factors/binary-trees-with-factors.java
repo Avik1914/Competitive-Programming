@@ -1,28 +1,21 @@
 class Solution {
-    Map<Integer,Long> dp;
     public int numFactoredBinaryTrees(int[] arr) {
-        long res=0;
-        dp=new HashMap();
-        Set<Integer> set=new HashSet();
-        for(int a:arr)
-            set.add(a);
-        for(int a:arr){
-            res+=dfs(arr,a,set);
-            res%=1000000007;
+        Map<Integer,Long> dp=new HashMap();
+        long ans=0l;
+        int len=arr.length;
+        
+        Arrays.sort(arr);
+        
+        for(int i=0;i<len;i++){
+            dp.put(arr[i],1l);
+            long cnt=1l;
+            for(int j=0;j<i;j++){
+                if(arr[i]%arr[j]==0)
+                    cnt+=dp.get(arr[j])*dp.getOrDefault(arr[i]/arr[j],0l);
+            }  
+            dp.put(arr[i],cnt);
+            ans+=cnt;
         }
-        return (int)res;
-    }
-    
-    public long dfs(int[] arr,int root,Set<Integer> set){
-        long res=1l;
-        if(dp.get(root)!=null)
-            return dp.get(root);
-        for(int n:arr){
-            if(root%n==0 && set.contains(root/n)){
-                res+=dfs(arr,n,set)*dfs(arr,root/n,set);
-            }
-        }
-        dp.put(root,res);
-        return res;
+        return (int)(ans%1000000007);
     }
 }
