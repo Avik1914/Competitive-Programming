@@ -1,28 +1,23 @@
 class Solution {
-    int res=0;
     public int maxLength(List<String> arr) {
-        dfs(arr,"",0);
+        List<Integer> dp=new ArrayList();
+        dp.add(0);
+        int res=0;
+        for(String s:arr){
+            int a=0,dup=0;
+            for(char c:s.toCharArray()){
+                dup|=a & (1<<c-'a');
+                a|=(1<<c-'a');
+            }
+            if(dup>0)
+                continue;
+            for(int i=dp.size()-1;i>=0;i--){
+                if((dp.get(i) & a)!=0)
+                    continue;
+                dp.add(dp.get(i)|a);
+                res=Math.max(res,Integer.bitCount(dp.get(i)|a));
+            }
+        }
         return res;
-    }
-    
-    public void dfs(List<String> arr,String str,int start){
-        if(start>=arr.size()){
-            if(checkUnique(str))
-                res=Math.max(res,str.length());
-            return;
-        }
-        dfs(arr,str+arr.get(start),start+1);
-        dfs(arr,str,start+1);
-    }
-    
-    
-    public boolean checkUnique(String str){
-        int[] lkp=new int[26];
-        
-        for(char c:str.toCharArray()){
-            if(++lkp[c-'a']>1)
-                return false;
-        }
-        return true;
     }
 }
