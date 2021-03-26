@@ -3,21 +3,33 @@ class Solution {
         List<Integer> dp=new ArrayList();
         dp.add(0);
         int res=0;
-        for(String s:arr){
-            int a=0,dup=0;
-            for(char c:s.toCharArray()){
-                dup|=a & (1<<c-'a');
-                a|=(1<<c-'a');
+        int len=arr.size();
+        
+        for(int i=0;i<len;i++){
+            char[] cArr=arr.get(i).toCharArray();
+            int val=0;
+            boolean flag=true;
+            for(char c:cArr){
+                if((val & (1<<(c-'a')))!=0){
+                    flag=false;
+                    break;
+                }
+                val|=(1<<(c-'a'));
             }
-            if(dup>0)
+            if(!flag)
                 continue;
-            for(int i=dp.size()-1;i>=0;i--){
-                if((dp.get(i) & a)!=0)
-                    continue;
-                dp.add(dp.get(i)|a);
-                res=Math.max(res,Integer.bitCount(dp.get(i)|a));
+            int size=dp.size();
+            for(int j=0;j<size;j++){
+                if((val & dp.get(j))==0){
+                    int p=(val|dp.get(j));
+                    dp.add(p);
+                    res=Math.max(res,Integer.bitCount(p));
+                }
             }
+            
+            
         }
         return res;
     }
+    
 }
