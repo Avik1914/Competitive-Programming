@@ -1,62 +1,47 @@
 class Solution {
-    List<String> li;
     public List<String> fullJustify(String[] words, int maxWidth) {
-        li=new ArrayList();
+      int len=words.length;
+      List<String> res=new ArrayList();
         
-        int len=words.length;
-        int pres=-1;
-        int start=0;
         for(int i=0;i<len;i++){
-            if(pres+words[i].length()<maxWidth)
-                pres+=words[i].length()+1;
-            else{
-                populateList(words,start,i-1,maxWidth,pres);   
-                pres=words[i].length();
-                start=i;
+            int cnt=0;
+            int start=i;
+            while(i<len && cnt+words[i].length()<=maxWidth){
+                cnt+=words[i].length();
+                cnt++;
+                i++;
             }
+            i--;
+            cnt--;
+            buildString(res,words,start,i,maxWidth,cnt);
         }
-        StringBuilder sb=new StringBuilder();
-        int extra=maxWidth-pres;
+        return res;
         
-        for(int i=start;i<len;i++){
-            if(i!=len-1)
-                sb.append(words[i]+" ");
-            else
-                sb.append(words[i]);
-        }
-        while(extra-->0)
-            sb.append(" ");
-        li.add(sb.toString());
-        
-        return li;
     }
     
-    public void populateList(String[] words,int start,int end,int mw,int cnt){
-        int extra=mw-cnt;
-        int val=end-start;
+    public void buildString(List<String> res,String[] words,int s,int e,int m,int c){
         StringBuilder sb=new StringBuilder();
+        int noOfSpaces=m-c;
+        int noOfWords=e-s;
         
-        for(int i=start;i<=end;i++){
+        for(int i=s;i<=e;i++){
             sb.append(words[i]);
-            if(i!=end)
+            if(i!=e){
                 sb.append(" ");
-            if(val>0){
-                if(extra%val==0){
-                    int itr=extra/val;
-                    while(itr-->0)
+                if(e!=words.length-1){
+                    int val=noOfSpaces/noOfWords;
+                    if(noOfSpaces%noOfWords!=0)
+                        val++;
+                    for(int j=0;j<val;j++)
                         sb.append(" ");
-                    extra-=(extra/val);
-                }else{
-                    int itr=(extra/val)+1;
-                    while(itr-->0)
-                        sb.append(" ");
-                    extra-=((extra/val)+1);
+                    noOfSpaces-=val;
+                    noOfWords--;
                 }
-                val--;
             }
+            
         }
-        while(extra-->0)
+        for(int j=0;j<noOfSpaces;j++)
             sb.append(" ");
-        li.add(sb.toString());
+        res.add(sb.toString());
     }
 }
