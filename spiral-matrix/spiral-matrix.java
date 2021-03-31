@@ -3,29 +3,27 @@ class Solution {
         int row=matrix.length;
         int col=matrix[0].length;
         
-        int rowStart=0,rowEnd=row-1,colStart=0,colEnd=col-1;
+        boolean[][] visit=new boolean[row][col];
+        int[][] dir={{0,1},{1,0},{0,-1},{-1,0}};
+        
+        int x=0,y=-1;
+        int itr=0;
         List<Integer> res=new ArrayList();
         
-        while(rowStart<=rowEnd && colStart<=colEnd){
-        for(int i=colStart;i<=colEnd;i++)
-            res.add(matrix[rowStart][i]);
-        
-        for(int i=rowStart+1;i<=rowEnd;i++)
-            res.add(matrix[i][colEnd]);
-        
-        if(rowStart<rowEnd)
-            for(int i=colEnd-1;i>=colStart;i--)
-                res.add(matrix[rowEnd][i]);
-        if(colStart<colEnd)
-            for(int i=rowEnd-1;i>rowStart;i--)
-                res.add(matrix[i][colStart]);
-            
-        rowStart++;
-        colStart++;
-        rowEnd--;
-        colEnd--;
-            
+        for(int i=0;i<row*col;i++){
+            x+=dir[itr][0];
+            y+=dir[itr][1];
+            if(x<0 || y<0 || x>=row || y>=col || visit[x][y]){
+                x-=dir[itr][0];
+                y-=dir[itr][1];
+                itr=(itr+1)%4;
+                x+=dir[itr][0];
+                y+=dir[itr][1];
+            }
+            res.add(matrix[x][y]);
+            visit[x][y]=true;
         }
+        
         return res;
     }
 }
