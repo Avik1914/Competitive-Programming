@@ -1,21 +1,17 @@
 class Solution {
     public int maxPoints(int[][] points) {
         int len=points.length;
-        if(len<3)
-            return len;
-        int res=0;
+        int res=1;
+        
         for(int i=0;i<len;i++){
             Map<String,Integer> map=new HashMap();
             for(int j=i+1;j<len;j++){
-                int x=points[j][1]-points[i][1];
-                int y=points[j][0]-points[i][0];
-                int g=gcd(x,y);
-                String s=(x/g)+","+(y/g);
-                if(map.get(s)==null)
-                    map.put(s,2);
-                else
-                    map.put(s,map.get(s)+1);
-                res=Math.max(res,map.get(s));
+                int x=points[i][0]-points[j][0];
+                int y=points[i][1]-points[j][1];
+                int c=gcd(x,y);
+                String str=(x/c)+","+(y/c);
+                map.put(str,map.getOrDefault(str,1)+1);
+                res=Math.max(map.get(str),res);
             }
         }
         
