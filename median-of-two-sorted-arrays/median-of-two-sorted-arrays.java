@@ -6,29 +6,30 @@ class Solution {
             return findMedianSortedArrays(nums2,nums1);
         
         boolean isEven=(len1+len2)%2==0;
-        int val=(len1+len2+1)/2;
         int lo=0;
-        int hi=len1;
+        int hi=len1+1;
+        int val=(len1+len2+1)/2;
         int a,b,c,d;
         
         while(lo<=hi){
-            int partX=(lo+hi)/2;
-            int partY=val-partX;
-            a=partX==0?Integer.MIN_VALUE:nums1[partX-1];
-            b=partX==len1?Integer.MAX_VALUE:nums1[partX];
-            c=partY==0?Integer.MIN_VALUE:nums2[partY-1];
-            d=partY==len2?Integer.MAX_VALUE:nums2[partY];
+            int partitionX=(lo+hi)/2;
+            int partitionY=val-partitionX;
+            
+            a=partitionX==0?Integer.MIN_VALUE:nums1[partitionX-1];
+            b=partitionX==len1?Integer.MAX_VALUE:nums1[partitionX];
+            c=partitionY==0?Integer.MIN_VALUE:nums2[partitionY-1];
+            d=partitionY==len2?Integer.MAX_VALUE:nums2[partitionY];
             
             if(a<=d && b>=c){
                 if(isEven)
-                    return ((double)Math.max(a,c)+(double)Math.min(b,d))/2.0;
+                    return ((double)(Math.max(a,c)+Math.min(b,d)))/2.0;
                 else
                     return (double)Math.max(a,c);
             }
             if(a>d)
-                hi=partX-1;
+                hi=partitionX-1;
             else
-                lo=partX+1;
+                lo=partitionX+1;
         }
         
         return 0.0;
