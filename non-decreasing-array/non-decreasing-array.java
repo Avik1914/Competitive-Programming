@@ -1,23 +1,26 @@
 class Solution {
     public boolean checkPossibility(int[] nums) {
         int len=nums.length;
-        int prev=Integer.MIN_VALUE;
-        int count=0;
+        int max=Integer.MIN_VALUE;
+        int change=0;
         
-        for(int i=0;i<len;i++){
-            if(prev>nums[i]){
-                if(count>0)
-                    return false;
-                count++;
-                if(i==1)
-                    prev=nums[i];
-                else
-                    prev=nums[i]>=nums[i-2]?nums[i]:prev;
+        for(int i=0;i<len-1;i++){
+            if(nums[i]>nums[i+1]){
+                if(max<=nums[i+1]){
+                    max=nums[i+1];
+                    
+                }else{
+                    nums[i+1]=nums[i];
+                    max=Math.max(nums[i],max);
+                }
+                change++;
+                    
             }else
-                prev=nums[i];
-                
+                max=Math.max(nums[i],max);
+            if(change>1)
+                return false;
+            
         }
-        
         return true;
     }
 }
