@@ -14,26 +14,22 @@
  * }
  */
 class Solution {
-    TreeNode lastSeen=null;
+    TreeNode prev;
     public void flatten(TreeNode root) {
+        prev=null;
         dfs(root);
         
     }
     
-    public TreeNode dfs(TreeNode root){
+    public void dfs(TreeNode root){
         if(root==null)
-            return null;
-        lastSeen=root;
-        TreeNode lc=dfs(root.left);
-       
+            return;
+        dfs(root.right);
+        dfs(root.left);
+        if(prev!=null)
+            root.right=prev;
+        prev=root;
+        root.left=null;
         
-        if(root.left!=null){
-            
-            lastSeen.right=root.right;
-            root.right=root.left;
-            root.left=null;
-        }
-         TreeNode rc=dfs(root.right);
-        return root;
     }
 }
