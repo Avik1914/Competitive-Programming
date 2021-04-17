@@ -1,24 +1,37 @@
 class Solution {
-    Integer[][] dp;
     public int coinChange(int[] coins, int amount) {
-        dp=new Integer[coins.length][amount+1];
-        int a=dfs(coins,0,amount);
-        return a==Integer.MAX_VALUE?-1:a;
+        int len=coins.length;
+        
+        int[] dp=new int[amount+1];
+        dp[0]=0;
+        for(int i=1;i<=amount;i++){
+            dp[i]=Integer.MAX_VALUE;
+            for(int j=0;j<len;j++){
+                if(coins[j]<=i && dp[i-coins[j]]!=Integer.MAX_VALUE){
+                    dp[i]=Math.min(dp[i],1+dp[i-coins[j]]);
+                }
+            }
+        }
+        
+        
+        
+        return dp[amount]==Integer.MAX_VALUE?-1:dp[amount];
     }
     
-    public int dfs(int[] coins,int start,int amount){
-        if(amount==0)
+    public int dfs(int[] coins,int amt){
+        if(amt==0)
             return 0;
-        if(start>=coins.length || amount<0)
-            return Integer.MAX_VALUE;
-        if(dp[start][amount]==null){
-        int res=0;
-        int a=dfs(coins,start,amount-coins[start]);
-        int b=dfs(coins,start+1,amount);
-        if(a!=Integer.MAX_VALUE)
-            a++;
-        dp[start][amount]=Math.min(a,b);
-        }
-        return dp[start][amount];
+        int ret=Integer.MAX_VALUE;
+       for(int i=0;i<coins.length;i++){
+           if(coins[i]<=amt){
+               int a=dfs(coins,amt-coins[i]);
+               if(a!=Integer.MAX_VALUE)
+                   a++;
+               ret=Math.min(ret,a);
+            }
+       }
+        
+        return ret;
+       
     }
 }
