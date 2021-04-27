@@ -1,71 +1,74 @@
 class Dlist{
+    int val;
+    int key;
     Dlist next;
     Dlist prev;
-    int key;
-    int val;
+    
     Dlist(int key,int val){
+        this.key=key;
+        this.val=val;
         next=null;
         prev=null;
-        this.val=val;
-        this.key=key;
     }
 }
-
 class LRUCache {
-    int size;
+    Dlist dummyHead;
+    Dlist dummyTail;
+    int capacity;
     Map<Integer,Dlist> map;
-    Dlist head;
-    Dlist tail;
     
     public LRUCache(int capacity) {
-        size=capacity;
-        map=new HashMap();
-        Dlist dummy=new Dlist(-1,-1);
-        head=dummy;
-        tail=dummy;
-        head.next=tail;
-        tail.prev=head;
+        map=new HashMap<>();
+        this.capacity=capacity; 
+        dummyHead=new Dlist(-1,-1);
+        dummyTail=new Dlist(-1,-1);
+        
+        dummyHead.next=dummyTail;
+        dummyTail.prev=dummyHead;
+        
+        
+        
     }
     
     public int get(int key) {
-        if(!map.containsKey(key))    
+        if(!map.containsKey(key))
             return -1;
-        changePriority(key);
-        return map.get(key).val;
-    }
-    
-    public void changePriority(int key){
-        Dlist temp=map.get(key);
-        temp.prev.next=temp.next;
-        temp.next.prev=temp.prev;
-        addFirst(key);
-    }
-    
-    public void addFirst(int key){
-        Dlist temp=map.get(key);
-        head.next.prev=temp;
-        temp.prev=head;
-        temp.next=head.next;
-        head.next=temp;
+        Dlist ret=map.get(key);
+        reorder(ret);
+        return ret.val;
     }
     
     public void put(int key, int value) {
-        Dlist temp;
-        if(!map.containsKey(key)){
-            size--;
-            temp=new Dlist(key,value);
-            map.put(key,temp);
-            addFirst(key);
-        }else{
+        if(map.containsKey(key)){
             map.get(key).val=value;
-            changePriority(key);
+            reorder(map.get(key));
         }
-        if(size<0){
-            map.remove(tail.prev.key);
-            tail.prev.prev.next=tail;
-            tail.prev=tail.prev.prev;
-            size++;
+        else{
+            Dlist newDlist=new Dlist(key,value);
+            newDlist.next=dummyHead.next;
+            dummyHead.next.prev=newDlist;
+            dummyHead.next=newDlist;
+            newDlist.prev=dummyHead;
+            map.put(key,newDlist);
+            capacity--;
+            if(capacity<0){
+                Dlist rem=dummyTail.prev;
+                map.remove(rem.key);
+                dummyTail.prev.prev.next=dummyTail;
+                dummyTail.prev=dummyTail.prev.prev;
+                capacity++;
+            }
+                
         }
+    }
+    
+    public void reorder(Dlist list){
+        list.prev.next=list.next;
+        list.next.prev=list.prev;
+        list.next=dummyHead.next;
+        dummyHead.next.prev=list;
+        dummyHead.next=list;
+        list.prev=dummyHead;
     }
 }
 
