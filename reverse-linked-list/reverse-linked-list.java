@@ -10,23 +10,24 @@
  */
 class Solution {
     ListNode newHead;
+    ListNode ret=null;
     public ListNode reverseList(ListNode head) {
-        if(head==null)
-            return null;
-        helper(head);
-        return newHead;
+        newHead=null;
+        dfs(head);
+        return ret;
     }
     
-    public ListNode helper(ListNode head){
+    public void dfs(ListNode head){
         if(head==null)
-            return null;
-        ListNode node=helper(head.next);
-        if(node==null)
+            return;
+        dfs(head.next);
+        if(newHead==null){
             newHead=head;
-        else{
-            node.next=head;
-            head.next=null;
+            ret=head;
+        }else{
+            newHead.next=head;
+            newHead=head;
         }
-        return head;
+        newHead.next=null;
     }
 }
