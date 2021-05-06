@@ -8,43 +8,44 @@ class TrieNode{
     }
 }
 class Trie {
-    TrieNode trie;
+    TrieNode root;
     /** Initialize your data structure here. */
     public Trie() {
-        trie=new TrieNode();
+        root=new TrieNode();
     }
     
     /** Inserts a word into the trie. */
     public void insert(String word) {
-        TrieNode root=trie;
+        TrieNode temp=root;
         
         for(char c:word.toCharArray()){
-            if(root.nodes[c-'a']==null)
-                root.nodes[c-'a']=new TrieNode();
-            root=root.nodes[c-'a'];
+            if(temp.nodes[c-'a']==null)
+                temp.nodes[c-'a']=new TrieNode();
+            temp=temp.nodes[c-'a'];
         }
-        root.isEndOfWord=true;
+        temp.isEndOfWord=true;
     }
     
     /** Returns if the word is in the trie. */
     public boolean search(String word) {
-        TrieNode root=trie;
+        TrieNode temp=root;
+        
         for(char c:word.toCharArray()){
-            if(root.nodes[c-'a']==null)
+            if(temp.nodes[c-'a']==null)
                 return false;
-            root=root.nodes[c-'a'];
+            temp=temp.nodes[c-'a'];
         }
-        return root.isEndOfWord;
+        return temp.isEndOfWord;
     }
-    
     
     /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
-        TrieNode root=trie;
+        TrieNode temp=root;
+        
         for(char c:prefix.toCharArray()){
-            if(root.nodes[c-'a']==null)
+            if(temp.nodes[c-'a']==null)
                 return false;
-            root=root.nodes[c-'a'];
+            temp=temp.nodes[c-'a'];
         }
         return true;
     }
